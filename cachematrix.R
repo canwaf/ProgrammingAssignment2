@@ -1,15 +1,42 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Function written for r-prog-011 week 3 programming assignment
+## Forked from: https://github.com/rdpeng/ProgrammingAssignment2
 
-## Write a short comment describing this function
+## makeCacheMatrix: support routines: setting/retrieving the matrix and its inverse
 
 makeCacheMatrix <- function(x = matrix()) {
-
+      
+      # create the variable in the correct enviroment to check
+      # if it's not null, we'll do some stuff later
+      m <- NULL
+            
+      set <- function(y = matrix()) {
+            x <<- y
+            m <<- NULL
+      }
+      get <- function() x
+      setcache <- function(solve) m <<- solve
+      getcache <- function() m
+      list(set = set, get = get,
+           setcache = setcache,
+           getcache = getcache)
 }
 
 
-## Write a short comment describing this function
+## cacheSolve: check if vector already inversed
+##   \> if vector, return cached inverse
+##   \> if !vector, caculate & return inverse, cache results
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+      m <- x$getcache()                     #retrieve cache
+      if(!is.null(m)) {                     #are you there m?
+            message("getting cached data")  #rest easy, Bond. M's there.
+            return(m)
+      }
+      data <- x$get()
+            
+      m <- solve(data, ...)
+      
+      x$setcache(m)
+      
+      m 
 }
